@@ -59,6 +59,10 @@ impl Display for Bar {
     }
 }
 
+const START_CODE_SET_A: usize = 103;
+const START_CODE_SET_B: usize = 104;
+const START_CODE_SET_C: usize = 105;
+const STOP: usize = 106;
 const WIDTHS_LUT: [[u8; 6]; 107] = [
     [2, 1, 2, 2, 2, 2], //   0
     [2, 2, 2, 1, 2, 2], //   1
@@ -166,7 +170,22 @@ const WIDTHS_LUT: [[u8; 6]; 107] = [
     [2, 1, 1, 4, 1, 2], // 103
     [2, 1, 1, 2, 1, 4], // 104
     [2, 1, 1, 2, 3, 2], // 105
-    [2, 3, 3, 1, 1, 1], // 106 
+    [2, 3, 3, 1, 1, 1], // 106
+];
+
+const SET_A_VALUE_LUT: [char; 64] = [
+    ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2',
+    '3', '4', '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E',
+    'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+    'Y', 'Z', '[', '\\', ']', '^', '_',
+];
+
+const SET_B_VALUE_LUT: [char; 95] = [
+    ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2',
+    '3', '4', '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E',
+    'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+    'Y', 'Z', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+    'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~',
 ];
 
 pub fn get_svg_barcode(value: &str) -> String {
@@ -177,67 +196,11 @@ pub fn generate_barcode_code128(_value: &str) -> String {
     // let x dimension = 1
     // hardcode
     let begin = r#"<svg width="300" height="70" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="10" width="10" height="50" fill="white"/>
+    <rect x="0" y="10" width="10" height="50" fill="white"/>"#;
 
-    <rect x="10" y="10" width="2" height="50" fill="black"/>
-    <rect x="12" y="10" width="1" height="50" fill="white"/>
-    <rect x="13" y="10" width="1" height="50" fill="black"/>
-    <rect x="14" y="10" width="4" height="50" fill="white"/>
-    <rect x="18" y="10" width="1" height="50" fill="black"/>
-    <rect x="19" y="10" width="2" height="50" fill="white"/>"#;
+    let content = get_bars_for_string("aB1_`,", 10);
 
-    let content = get_bars_for_string("CSE370", 21);
-
-    // <rect x="21" y="10" width="1" height="50" fill="black"/>
-    // <rect x="22" y="10" width="3" height="50" fill="white"/>
-    // <rect x="25" y="10" width="1" height="50" fill="black"/>
-    // <rect x="26" y="10" width="3" height="50" fill="white"/>
-    // <rect x="29" y="10" width="2" height="50" fill="black"/>
-    // <rect x="31" y="10" width="1" height="50" fill="white"/>
-
-    // <rect x="32" y="10" width="2" height="50" fill="black"/>
-    // <rect x="34" y="10" width="1" height="50" fill="white"/>
-    // <rect x="35" y="10" width="3" height="50" fill="black"/>
-    // <rect x="38" y="10" width="1" height="50" fill="white"/>
-    // <rect x="39" y="10" width="1" height="50" fill="black"/>
-    // <rect x="40" y="10" width="3" height="50" fill="white"/>
-
-    // <rect x="43" y="10" width="1" height="50" fill="black"/>
-    // <rect x="44" y="10" width="3" height="50" fill="white"/>
-    // <rect x="47" y="10" width="2" height="50" fill="black"/>
-    // <rect x="49" y="10" width="1" height="50" fill="white"/>
-    // <rect x="50" y="10" width="1" height="50" fill="black"/>
-    // <rect x="51" y="10" width="3" height="50" fill="white"/>
-
-    // <rect x="54" y="10" width="2" height="50" fill="black"/>
-    // <rect x="56" y="10" width="2" height="50" fill="white"/>
-    // <rect x="58" y="10" width="1" height="50" fill="black"/>
-    // <rect x="59" y="10" width="1" height="50" fill="white"/>
-    // <rect x="60" y="10" width="3" height="50" fill="black"/>
-    // <rect x="63" y="10" width="2" height="50" fill="white"/>
-
-    // <rect x="65" y="10" width="3" height="50" fill="black"/>
-    // <rect x="66" y="10" width="1" height="50" fill="white"/>
-    // <rect x="68" y="10" width="2" height="50" fill="black"/>
-    // <rect x="70" y="10" width="1" height="50" fill="white"/>
-    // <rect x="71" y="10" width="3" height="50" fill="black"/>
-    // <rect x="74" y="10" width="1" height="50" fill="white"/>
-
-    // <rect x="75" y="10" width="1" height="50" fill="black"/>
-    // <rect x="76" y="10" width="2" height="50" fill="white"/>
-    // <rect x="78" y="10" width="3" height="50" fill="black"/>
-    // <rect x="81" y="10" width="1" height="50" fill="white"/>
-    // <rect x="82" y="10" width="2" height="50" fill="black"/>
-    // <rect x="84" y="10" width="2" height="50" fill="white"/>
-
-    let end = r#"<rect x="86" y="10" width="2" height="50" fill="black"/>
-    <rect x="88" y="10" width="2" height="50" fill="white"/>
-    <rect x="90" y="10" width="1" height="50" fill="black"/>
-    <rect x="91" y="10" width="2" height="50" fill="white"/>
-    <rect x="93" y="10" width="3" height="50" fill="black"/>
-    <rect x="96" y="10" width="1" height="50" fill="white"/>
-
-    <rect x="97" y="10" width="2" height="50" fill="black"/>
+    let end = r#"<rect x="97" y="10" width="2" height="50" fill="black"/>
     <rect x="99" y="10" width="3" height="50" fill="white"/>
     <rect x="102" y="10" width="3" height="50" fill="black"/>
     <rect x="105" y="10" width="1" height="50" fill="white"/>
@@ -259,20 +222,93 @@ pub fn generate_barcode_code128(_value: &str) -> String {
 fn get_bars_for_string(s: &str, offset: i64) -> String {
     let mut bars = String::new();
     let mut current_offset = offset;
+    let mut current_fill = BarColor::Black;
+
+    let start_b_widths = WIDTHS_LUT[START_CODE_SET_B];
+    for width in start_b_widths.iter() {
+        let bar: Bar = Bar {
+            position: Point {
+                x: current_offset,
+                y: 10,
+            },
+            size: Size {
+                height: 50,
+                width: *width as u64,
+            },
+            color: current_fill,
+        };
+        bars.push_str(bar.to_string().as_str());
+
+        current_offset += i64::from(*width);
+        current_fill = !current_fill;
+    }
+
 
     for c in s.chars() {
         bars.push_str(get_bars_for_character(c, current_offset).as_str());
         current_offset += 11;
     }
 
+    let checksum = calculate_checksum(s);
+    let checksum_widths = WIDTHS_LUT[checksum];
+    for width in checksum_widths.iter() {
+        let bar: Bar = Bar {
+            position: Point {
+                x: current_offset,
+                y: 10,
+            },
+            size: Size {
+                height: 50,
+                width: *width as u64,
+            },
+            color: current_fill,
+        };
+        bars.push_str(bar.to_string().as_str());
+
+        current_offset += i64::from(*width);
+        current_fill = !current_fill;
+    }
+
+    let stop_widths = WIDTHS_LUT[STOP];
+    for width in stop_widths.iter() {
+        let bar: Bar = Bar {
+            position: Point {
+                x: current_offset,
+                y: 10,
+            },
+            size: Size {
+                height: 50,
+                width: *width as u64,
+            },
+            color: current_fill,
+        };
+        bars.push_str(bar.to_string().as_str());
+
+        current_offset += i64::from(*width);
+        current_fill = !current_fill;
+    }
+
     bars
+}
+
+fn calculate_checksum(s: &str) -> usize {
+    let mut sum: usize = 104; // hard coding the Set B value
+
+    for (position, character) in s.chars().enumerate() {
+        let character_value: usize = SET_B_VALUE_LUT
+            .iter()
+            .position(|&c| c == character)
+            .unwrap();
+        sum += (position + 1) * character_value;
+    }
+    sum % 103
 }
 
 fn get_bars_for_character(c: char, offset: i64) -> String {
     let mut bars = String::new();
     let mut current_offset = offset;
     let mut current_fill = BarColor::Black;
-    let widths = get_widths_u8(c);
+    let widths = get_widths(c);
 
     for width in widths.iter() {
         let bar: Bar = Bar {
@@ -295,28 +331,12 @@ fn get_bars_for_character(c: char, offset: i64) -> String {
     bars
 }
 
-fn get_widths(c: char) -> &'static str {
-    match c {
-        'C' => "131321",
-        'S' => "213113",
-        'E' => "132113",
-        '3' => "221132",
-        '7' => "312131",
-        '0' => "123122",
-        _ => unreachable!(),
-    }
-}
-
-fn get_widths_u8(c: char) -> [u8; 6] {
-    match c {
-        'C' => [1, 3, 1, 3, 2, 1],
-        'S' => [2, 1, 3, 1, 1, 3],
-        'E' => [1, 3, 2, 1, 1, 3],
-        '3' => [2, 2, 1, 1, 3, 2],
-        '7' => [3, 1, 2, 1, 3, 1],
-        '0' => [1, 2, 3, 1, 2, 2],
-        _ => unreachable!(),
-    }
+fn get_widths(character: char) -> [u8; 6] {
+    let value: usize = SET_B_VALUE_LUT
+        .iter()
+        .position(|&c| c == character)
+        .unwrap();
+    WIDTHS_LUT[value]
 }
 
 #[cfg(test)]
@@ -327,7 +347,7 @@ mod code_128_tests {
 
     #[test]
     fn get_widths_for_C() {
-        assert_eq!(get_widths_u8('C'), [1, 3, 1, 3, 2, 1])
+        assert_eq!(get_widths('C'), [1, 3, 1, 3, 2, 1])
     }
 
     #[test]
@@ -347,20 +367,43 @@ mod code_128_tests {
     #[test]
     fn get_bars_for_CS() {
         let expected = concat!(
-            r#"<rect x="21" y="10" height="50" width="1" fill="black"/>"#,
+            r#"<rect x="10" y="10" height="50" width="2" fill="black"/>"#, // Start B
+            r#"<rect x="12" y="10" height="50" width="1" fill="white"/>"#,
+            r#"<rect x="13" y="10" height="50" width="1" fill="black"/>"#,
+            r#"<rect x="14" y="10" height="50" width="2" fill="white"/>"#,
+            r#"<rect x="16" y="10" height="50" width="1" fill="black"/>"#,
+            r#"<rect x="17" y="10" height="50" width="4" fill="white"/>"#,
+            r#"<rect x="21" y="10" height="50" width="1" fill="black"/>"#, // C
             r#"<rect x="22" y="10" height="50" width="3" fill="white"/>"#,
             r#"<rect x="25" y="10" height="50" width="1" fill="black"/>"#,
             r#"<rect x="26" y="10" height="50" width="3" fill="white"/>"#,
             r#"<rect x="29" y="10" height="50" width="2" fill="black"/>"#,
             r#"<rect x="31" y="10" height="50" width="1" fill="white"/>"#,
-            r#"<rect x="32" y="10" height="50" width="2" fill="black"/>"#,
+            r#"<rect x="32" y="10" height="50" width="2" fill="black"/>"#, // S
             r#"<rect x="34" y="10" height="50" width="1" fill="white"/>"#,
             r#"<rect x="35" y="10" height="50" width="3" fill="black"/>"#,
             r#"<rect x="38" y="10" height="50" width="1" fill="white"/>"#,
             r#"<rect x="39" y="10" height="50" width="1" fill="black"/>"#,
-            r#"<rect x="40" y="10" height="50" width="3" fill="white"/>"#
+            r#"<rect x="40" y="10" height="50" width="3" fill="white"/>"#,
+            r#"<rect x="43" y="10" height="50" width="1" fill="black"/>"#, // Checksum
+            r#"<rect x="44" y="10" height="50" width="3" fill="white"/>"#,
+            r#"<rect x="47" y="10" height="50" width="1" fill="black"/>"#,
+            r#"<rect x="48" y="10" height="50" width="3" fill="white"/>"#,
+            r#"<rect x="51" y="10" height="50" width="2" fill="black"/>"#,
+            r#"<rect x="53" y="10" height="50" width="1" fill="white"/>"#,
+            r#"<rect x="54" y="10" height="50" width="2" fill="black"/>"#, // Stop
+            r#"<rect x="56" y="10" height="50" width="3" fill="white"/>"#,
+            r#"<rect x="59" y="10" height="50" width="3" fill="black"/>"#,
+            r#"<rect x="62" y="10" height="50" width="1" fill="white"/>"#,
+            r#"<rect x="63" y="10" height="50" width="1" fill="black"/>"#,
+            r#"<rect x="64" y="10" height="50" width="1" fill="white"/>"#
         );
 
-        assert_eq!(get_bars_for_string("CS", 21), expected)
+        assert_eq!(get_bars_for_string("CS", 10), expected)
+    }
+
+    #[test]
+    fn test_checksum_cse370() {
+        assert_eq!(calculate_checksum("cse370"), 7)
     }
 }
