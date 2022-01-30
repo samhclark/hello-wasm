@@ -192,17 +192,15 @@ pub fn get_svg_barcode(value: &str) -> String {
     String::new()
 }
 
-pub fn generate_barcode_code128(_value: &str) -> String {
+pub fn generate_barcode(value: &str) -> String {
     // let x dimension = 1
     // hardcode
     let begin = r#"<svg width="300" height="70" xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="10" width="10" height="50" fill="white"/>"#;
 
-    let content = get_bars_for_string("aB1_`,", 10);
+    let content = get_bars_for_string(value, 10);
 
-    let end = r#"<rect x="109" y="10" width="2" height="50" fill="black"/>
-    <rect x="111" y="10" width="10" height="50" fill="white"/>
-</svg>"#;
+    let end = "</svg>";
 
     let mut to_return = String::new();
     to_return.push_str(begin);
@@ -279,6 +277,34 @@ fn get_bars_for_string(s: &str, offset: i64) -> String {
         current_offset += i64::from(*width);
         current_fill = !current_fill;
     }
+
+    let stop_bar = Bar {
+        position: Point {
+            x: current_offset,
+            y: 10,
+        },
+        size: Size {
+            height: 50,
+            width: 2,
+        },
+        color: BarColor::Black,
+    };
+    bars.push_str(stop_bar.to_string().as_str());
+    current_offset += 2;
+
+    let quiet_zone = Bar {
+        position: Point {
+            x: current_offset,
+            y: 10,
+        },
+        size: Size {
+            height: 50,
+            width: 10,
+        },
+        color: BarColor::White,
+    };
+    bars.push_str(quiet_zone.to_string().as_str());
+    current_offset += 10;
 
     bars
 }
@@ -388,7 +414,9 @@ mod code_128_tests {
             r#"<rect x="59" y="10" height="50" width="3" fill="black"/>"#,
             r#"<rect x="62" y="10" height="50" width="1" fill="white"/>"#,
             r#"<rect x="63" y="10" height="50" width="1" fill="black"/>"#,
-            r#"<rect x="64" y="10" height="50" width="1" fill="white"/>"#
+            r#"<rect x="64" y="10" height="50" width="1" fill="white"/>"#,
+            r#"<rect x="65" y="10" height="50" width="2" fill="black"/>"#, // Stop Bar
+            r#"<rect x="67" y="10" height="50" width="10" fill="white"/>"# // Quiet zone
         );
 
         assert_eq!(get_bars_for_string("CS", 10), expected)

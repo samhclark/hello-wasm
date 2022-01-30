@@ -23,5 +23,5 @@ pub fn svg() -> String {
 
 #[wasm_bindgen]
 pub fn generate_barcode_code128(value: &str) -> String {
-    code_128::generate_barcode_code128(value)
+    code_128::generate_barcode(value)
 }
