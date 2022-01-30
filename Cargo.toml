@@ -1,0 +1,13 @@
+[package]
+name = "hello-wasm"
+version = "0.1.0"
+authors = ["Sam Clark <sam.h.clark@gmail.com>"]
+description = "A sample project with wasm-pack"
+edition = "2021"
+
+[lib]
+# See https://doc.rust-lang.org/reference/linkage.html
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2.79"
