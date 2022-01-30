@@ -200,16 +200,8 @@ pub fn generate_barcode_code128(_value: &str) -> String {
 
     let content = get_bars_for_string("aB1_`,", 10);
 
-    let end = r#"<rect x="97" y="10" width="2" height="50" fill="black"/>
-    <rect x="99" y="10" width="3" height="50" fill="white"/>
-    <rect x="102" y="10" width="3" height="50" fill="black"/>
-    <rect x="105" y="10" width="1" height="50" fill="white"/>
-    <rect x="106" y="10" width="1" height="50" fill="black"/>
-    <rect x="107" y="10" width="1" height="50" fill="white"/>
-
-    <rect x="108" y="10" width="2" height="50" fill="black"/>
-
-    <rect x="110" y="10" width="10" height="50" fill="white"/>
+    let end = r#"<rect x="109" y="10" width="2" height="50" fill="black"/>
+    <rect x="111" y="10" width="10" height="50" fill="white"/>
 </svg>"#;
 
     let mut to_return = String::new();
